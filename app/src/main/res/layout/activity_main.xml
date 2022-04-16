@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_gray"
+        tools:context=".presentation.MainActivity">
+
+        <Button
+            android:id="@+id/btn_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_on_error"
+            android:textColor="@color/color_blue"
+            android:background="@color/color_white"
+            android:elevation="@dimen/elevation_small"
+            android:onClick="@{() -> viewModel.onClick(BtnAction.REPEAT)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:src="@drawable/ic_load_error"
+            android:tint="@color/color_pale_yellow"
+            android:elevation="@dimen/elevation_tiny"
+            app:layout_constraintBottom_toTopOf="@+id/tv_error"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_on_load_text"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_error"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.showError() ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="btn_error, iv_error, tv_error"
+            tools:visibility="gone" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/gif_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:contentDescription="@{viewModel.currentGif.description}"
+            app:cardBackgroundColor="@color/color_dark_gray"
+            app:cardCornerRadius="@dimen/corner_radius_medium"
+            app:cardElevation="@dimen/elevation_large"
+            app:cardMaxElevation="@dimen/elevation_large"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_back">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ProgressBar
+                    android:id="@+id/indeterminateBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/color_blue"
+                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
+                    android:id="@+id/gif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/gif_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_12dp"
+                    android:layout_marginEnd="@dimen/margin_10dp"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:elevation="@dimen/elevation_medium"
+                    android:text="@{viewModel.currentGif.description}"
+                    android:textColor="@color/color_white"
+                    android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Джуниору дали тяжелую задачу" />
+
+                <View
+                    android:id="@+id/gradient_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/description_gradient_height"
+                    android:background="@drawable/bottom_card_gradient"
+                    android:elevation="@dimen/elevation_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            android:src="@drawable/ic_btn_back"
+            android:tint="@color/color_yellow"
+            android:scaleType="center"
+            android:elevation="4dp"
+            android:background="@drawable/control_btn_background"
+            android:onClick="@{() -> viewModel.onClick(BtnAction.PREVIOUS)}"
+            android:contentDescription="@string/previous_gif"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            android:src="@drawable/ic_btn_new"
+            android:tint="@color/color_green"
+            android:scaleType="center"
+            android:elevation="4dp"
+            android:background="@drawable/control_btn_background"
+            android:onClick="@{() -> viewModel.onClick(BtnAction.NEXT)}"
+            android:contentDescription="@string/new_gif"
+            app:layout_constraintStart_toEndOf="@+id/guideline"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.showError() ? View.GONE : View.VISIBLE}"
+            app:constraint_referenced_ids="btn_back, btn_forward, gif_card"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data class="MainActivityLayoutBinding">
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.annevonwolffen.tfs.developerslife.presentation.MainViewModel" />
+
+        <import type="com.annevonwolffen.tfs.developerslife.presentation.BtnAction" />
+    </data>
+</layout>

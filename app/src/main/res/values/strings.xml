@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DevelopersLife</string>
+    <string name="repeat_on_error">Повторить</string>
+    <string name="error_on_load_text">Произошла ошибка при загрузке данных.</string>
+    <string name="previous_gif">Предыдущая</string>
+    <string name="new_gif">Вперед</string>
+</resources>
